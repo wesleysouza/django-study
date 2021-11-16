@@ -1,24 +1,24 @@
-#Django Framework Básico
+# Django Framework Básico
 
 ## Criando um projeto e aplicação
 
 Criando projeto:
 
-ˋˋˋshell
+```shell
 django-admin startproject nome-do-projeto
-ˋˋˋ 
+```
 
 Criando aplicação:
 
-ˋˋˋshell
+```shell
 django-admin startapp nome-da-aplicacao
-ˋˋˋ 
+```
 
 ## Criando um arquivo com a lista de dependências
 
-ˋˋˋ
+```
 pip freeze > requiriments.txt
-ˋˋˋ 
+```
 
 ## Aplicação
 
@@ -44,14 +44,14 @@ O registro da aplicação no projeto deve ser realizado no arquivo **settings.py
 
 Exemplo do registro da aplicação Core:
 
-ˋˋˋpython
+```python
 INSTALLED_APPS = [
     
     ...
     
     'core.apps.CoreConfig'
 ]
-ˋˋˋ 
+``` 
 
 ## Django X Aplicações
 
@@ -70,9 +70,9 @@ Execute os comandos no mesmo diretório do arquivo **manage.py**.
 
 Para executar o projeto digite o comando abaixo:
 
-ˋˋˋ
+```
 python manage.py runserver
-ˋˋˋ 
+``` 
 
 ## Views
 
@@ -92,17 +92,17 @@ Crie o diretório 'templates' (o nome desse diretório foi difinido no arquivo *
 
 As informações podem ser passadas através da View. Ex.:
 
-ˋˋˋpython
+```python
 def index(request):
     context = {
         'curso': 'Programação Web' #Chave:Valor (Dicionário Python)
     }
     return render(request, 'index.html', context)
-ˋˋˋ
+```
 
 Para exibir o valor no template passe a chave como no exemplo abaixo:
 
-ˋˋˋhtml
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -115,7 +115,7 @@ Para exibir o valor no template passe a chave como no exemplo abaixo:
         <h2>{{ curso }}</h2>
     </body>
 </html>
-ˋˋˋ
+```
 
 ## Area administrativa
 
@@ -123,13 +123,13 @@ A área administrativa é encontrada pelo path /admin.
 
 Criando superusuario:
 
-ˋˋˋ
+```
 python manage.py createsuperuser
-ˋˋˋ
+```
 
 Toda aplicação tem um arquivo **admin.py** onde podemos registrar nossos modelos. Exemplo do registro dos modelos Product e Client
 
-ˋˋˋpython
+```python
 from django.contrib import admin
 
 from .models import Product, Client
@@ -137,11 +137,11 @@ from .models import Product, Client
 # Register your models here.
 admin.site.register(Product)
 admin.site.register(Cliente)
-ˋˋˋ
+```
 
 Crie função str() no Model para aprensentar o objeto de forma customizada.
 
-ˋˋˋpython
+```python
 class Product(models.Model):
     name = models.CharField('name', max_length=100)
     price = models.DecimalField('price', decimal_places=2, max_digits=8)
@@ -149,16 +149,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-ˋˋˋ
+```
 
 Alterando a apresentação do Model Product pelo arquivo **admin.py**:
 
-ˋˋˋpython
+```python
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'stock')
 
 admin.site.register(Product, ProductAdmin)
-ˋˋˋ
+```
 
 ### Mudando o path /admin
 
