@@ -117,8 +117,56 @@ Para exibir o valor no template passe a chave como no exemplo abaixo:
 </html>
 ˋˋˋ
 
+## Area administrativa
 
+A área administrativa é encontrada pelo path /admin.
 
+Criando superusuario:
+
+ˋˋˋ
+python manage.py createsuperuser
+ˋˋˋ
+
+Toda aplicação tem um arquivo **admin.py** onde podemos registrar nossos modelos. Exemplo do registro dos modelos Product e Client
+
+ˋˋˋpython
+from django.contrib import admin
+
+from .models import Product, Client
+
+# Register your models here.
+admin.site.register(Product)
+admin.site.register(Cliente)
+ˋˋˋ
+
+Crie função str() no Model para aprensentar o objeto de forma customizada.
+
+ˋˋˋpython
+class Product(models.Model):
+    name = models.CharField('name', max_length=100)
+    price = models.DecimalField('price', decimal_places=2, max_digits=8)
+    stock = models.IntegerField('stock')
+
+    def __str__(self):
+        return self.name
+ˋˋˋ
+
+Alterando a apresentação do Model Product pelo arquivo **admin.py**:
+
+ˋˋˋpython
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'stock')
+
+admin.site.register(Product, ProductAdmin)
+ˋˋˋ
+
+### Mudando o path /admin
+
+É possível mudar o nome o path /admin da página admin no arquivo de urls do projeto.
+
+Geralmente, essa modificação é realizada por questões de segurança.
+
+## Django Shell
 
 
 
