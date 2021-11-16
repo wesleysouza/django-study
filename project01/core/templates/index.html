@@ -9,5 +9,25 @@
 
         <h2>{{ curso }}</h2>
         <h3>{{ string }}</h3>
+        <h3>{{ logado }}</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                    <tr>
+                        <td> {{ produto.name }}</td>
+                        <td> {{ produto.price }}</td>
+                        <td> {{ produto.stock }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </body>
 </html>

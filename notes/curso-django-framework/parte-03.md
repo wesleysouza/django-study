@@ -168,6 +168,157 @@ Geralmente, essa modificação é realizada por questões de segurança.
 
 ## Django Shell
 
+### Help
+
+Para obter ajuda em um comando específico digite:
+
+```
+python manage.py help command
+```
+
+Exemplo:
+
+```
+python manage.py help makemigrations
+```
+
+### Executando e trabalhando com o shell do Django
+
+Executando o shell:
+```
+python manage.py shell
+```
+
+Importando produto:
+
+```
+from core.models import Product
+```
+
+Vendo os atributos do produto:
+
+```
+dir(Product)
+```
+
+#### Criando novo Product
+
+Primeiro, criamos a classe Produto e atribuímos a uma variável, depois utilizamos o método save() para salvar esse novo produto na base.
+
+```python
+produto = Produto(nome="Atari 2600", price=300, stock=25)
+produto.save()
+```
+
+É necessário passar os argumentos nomeados porque não foi criado o construtor nos Models.
+
+#### Editando Product
+
+```python
+produto.name = "S21"
+produto.save()
+```
+
+#### Deletando Product
+
+```python
+produto.delete()
+```
+
+WSGI -> Padrão de aplicações Python para Web.
+
+### Analisando o Request pelo arquivo **views.py**
+
+```python
+def index(request):
+    print(dir(request)) # Observando os atributos do objeto request
+    print(f'Metodo: {request.method}') # Vendo o método do request
+    print(f'Headers: {request.headers}') # Vendo o cabeçalho do request (retorna um dicionário python)
+    print(f"User-Agent: {request.headers['User-Agent']}") # Vendo dados do usuário (navegador, SO e etc)
+    print(dir(request.user)) # Observando os atributos do objeto user de request
+    print(f"User: {request.user}") # Vendo o usuário
+    # É necessário que aqui o usuário esteja logado
+    #print(f"User LastName: {request.user.last_name}") # Vendo o sobrenome do usuário
+
+    if str(request.user) == 'AnonymousUser':
+        test = 'Usuário Não Logado!'
+    else:
+        test = 'Usuário Logado!'
+
+    context = {
+        'curso': 'Programação Web', #Chave:Valor (Dicionário Python)
+        'string': 'Mensagem',
+        'logado': test
+    }
+    return render(request, 'index.html', context)
+```
+
+Obs.: Verifique se os dados do context estão sendo apresentandos na view.
+
+## Apresentando dados do Banco de Dados no Template
+
+### Continuando com o Django Shell
+
+```
+dir(Product.objects)
+produtos = Product.objects.all()
+```
+
+Essa consulva via shell vai retornar um QuerySet. Um QuerySet (conjunto de busca) é, em essência, uma lista de objetos de um dado modelo. QuerySet permite que você leia os dados a partir de uma base de dados, filtre e ordene.
+
+### Interando em um QuerySet
+
+```
+for produto in produtos
+	print(produto)
+```
+
+Vendo a quantidade de produtos:
+
+```
+Product.objects.count()
+```
+
+Pegando o primeiro e último produto:
+
+
+```
+Product.objects.first()
+```
+
+```
+Product.objects.last()
+```
+
+Pegando produtos por meio de uma filtragem:
+
+```
+Product.objects.filter(id=1)
+```
+
+### Pegando os dados do QuerySet na View e apresentando no Template
+
+A maneira de pegar os dados na view é semelhante a forma como obtemos pelo Django Shell:
+
+```python
+def index(request):
+    #Apresentando produtos do BD na view
+
+    produtos = Product.objects.all()
+
+    context = {
+        'curso': 'Programação Web', #Chave:Valor (Dicionário Python)
+        'string': 'Mensagem',
+        'produtos': produtos
+    }
+    return render(request, 'index.html', context)
+```
+
+Agora no template:
+
+
+
+
 
 
 
